@@ -14,7 +14,7 @@
 
 ![image zoom](docs/image-zoom.webp)
 
-P.S. 截图里的主题是我做的 ![Bing Daily Theme](https://github.com/Nriver/bing-daily-theme), 喜欢的话可以试试 : )
+P.S. 截图里的主题是我做的 [Bing Daily Theme](https://github.com/Nriver/bing-daily-theme), 喜欢的话可以试试 : )
 
 # 如何安装
 
