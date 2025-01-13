@@ -1,3 +1,7 @@
+// Trilium Notes Image Zoom Widget
+// check for updates:
+// https://github.com/Nriver/image-zoom-widget/releases
+
 class ImagePreviewWidget extends api.NoteContextAwareWidget {
     get position() {
         return 100;
