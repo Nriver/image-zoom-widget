@@ -12,7 +12,13 @@ This plugin brings advanced image preview functionality to Trilium Notes. Click 
 
 # Screenshots
 
+Click to zoom image.
+
 ![image zoom](docs/image-zoom.webp)
+
+Right click on zoomed image to download it.
+
+![image download](docs/image-download.gif)
 
 P.S. The theme used in the screenshot is [Bing Daily Theme](https://github.com/Nriver/bing-daily-theme) which is also made by me. You can have a try if you like it : )
 

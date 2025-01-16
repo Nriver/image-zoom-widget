@@ -12,7 +12,13 @@
 
 # 截图
 
-![image zoom](docs/image-zoom.webp)
+点击放大图片。
+
+![放大图片](docs/image-zoom.webp)
+
+右键点击放大的图片以下载。
+
+![图片下载](docs/image-download.gif)
 
 P.S. 截图里的主题是我做的 [Bing Daily Theme](https://github.com/Nriver/bing-daily-theme), 喜欢的话可以试试 : )
 
