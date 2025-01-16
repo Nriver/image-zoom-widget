@@ -1,3 +1,6 @@
+// Change language name to anyone you like in the translations file. For example, 'cn' for Chinese, 'en' for english.
+var lang = 'en';
+
 // If it doesn’t work in the browser, try increasing the delay to better suit your settings.
 var executeDelay = 200;
 
@@ -6,6 +9,7 @@ var minZoomScale = 0.2;  // Minimum zoom scale
 var maxZoomScale = 5;    // Maximum zoom scale
 
 module.exports = {
+    lang,
     executeDelay,
     minZoomScale,
     maxZoomScale,

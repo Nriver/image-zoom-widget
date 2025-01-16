@@ -2,6 +2,9 @@
 // check for updates:
 // https://github.com/Nriver/image-zoom-widget/releases
 
+// Access translations based on the selected language
+const i18n = key => translations.trans[config.lang][key];
+
 class ImagePreviewWidget extends api.NoteContextAwareWidget {
     get position() {
         return 100;
@@ -42,6 +45,27 @@ class ImagePreviewWidget extends api.NoteContextAwareWidget {
                 /* Cursor style when dragging */
                 .image-preview-modal img.grabbing {
                     cursor: grabbing;
+                }
+
+                /* Right-click menu styles */
+                .context-menu {
+                    position: absolute;
+                    background-color: var(--menu-background-color);
+                    border: 1px solid var(--menu-text-color);
+                    color: var(--menu-text-color);
+                    padding: 5px;
+                    z-index: 10001;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                }
+
+                .context-menu div {
+                    padding: 5px;
+                    cursor: pointer;
+                }
+
+                .context-menu div:hover {
+                    background-color: var(--hover-item-background-color);
+                    color: var(--hover-item-text-color);
                 }
             </style>
         `);
@@ -143,6 +167,45 @@ class ImagePreviewWidget extends api.NoteContextAwareWidget {
                     scale = Math.min(Math.max(scale, minZoomScale), maxZoomScale);
                     modalImage.dataset.scale = scale;
                     modalImage.style.transform = `scale(${scale})`;
+                });
+
+                // Add right-click menu for download
+                modalImage.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+
+                    const existingMenu = document.querySelector('.context-menu');
+                    if (existingMenu) {
+                        document.body.removeChild(existingMenu);
+                    }
+
+                    const menu = document.createElement('div');
+                    menu.classList.add('context-menu');
+                    menu.style.top = `${e.clientY}px`;
+                    menu.style.left = `${e.clientX}px`;
+
+                    const downloadOption = document.createElement('div');
+                    downloadOption.textContent = i18n('downloadImage');
+                    downloadOption.addEventListener('click', () => {
+                        const a = document.createElement('a');
+                        a.href = modalImage.src;
+                        a.download = 'image';
+                        a.click();
+                        document.body.removeChild(menu);
+                    });
+
+                    menu.appendChild(downloadOption);
+
+                    document.body.appendChild(menu);
+
+                    document.addEventListener(
+                        'click',
+                        () => {
+                            if (document.body.contains(menu)) {
+                                document.body.removeChild(menu);
+                            }
+                        },
+                        { once: true }
+                    );
                 });
             }
 
