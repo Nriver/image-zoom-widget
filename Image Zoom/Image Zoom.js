@@ -160,14 +160,20 @@ class ImagePreviewWidget extends api.NoteContextAwareWidget {
                 });
 
                 modalImage.dataset.scale = 1;
-                modal.addEventListener('wheel', (event) => {
-                    event.preventDefault();
-                    let scale = parseFloat(modalImage.dataset.scale);
-                    scale *= event.deltaY < 0 ? zoomFactor : 1 / zoomFactor;
-                    scale = Math.min(Math.max(scale, minZoomScale), maxZoomScale);
-                    modalImage.dataset.scale = scale;
-                    modalImage.style.transform = `scale(${scale})`;
-                });
+
+                // Bind wheel event only once
+                if (!modalImage.dataset.wheelBound) {
+                    modal.addEventListener('wheel', (event) => {
+                        event.preventDefault();
+                        let scale = parseFloat(modalImage.dataset.scale);
+                        scale *= event.deltaY < 0 ? zoomFactor : 1 / zoomFactor;
+                        scale = Math.min(Math.max(scale, minZoomScale), maxZoomScale);
+                        console.log('image scale', scale);
+                        modalImage.dataset.scale = scale;
+                        modalImage.style.transform = `scale(${scale})`;
+                    });
+                    modalImage.dataset.wheelBound = 'true'; // Mark the wheel event as bound
+                }
 
                 // Add right-click menu for download
                 modalImage.addEventListener('contextmenu', (e) => {
