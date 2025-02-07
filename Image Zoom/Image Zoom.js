@@ -201,6 +201,15 @@ class ImagePreviewWidget extends api.NoteContextAwareWidget {
 
                     menu.appendChild(downloadOption);
 
+                    const copyOption = document.createElement('div');
+                    copyOption.textContent = i18n('copyImage');
+                    copyOption.addEventListener('click', async () => {
+						const img = await fetch(modalImage.src);
+                        const blob = await img.blob();
+                        navigator.clipboard.write([new ClipboardItem({ 'image/png' : blob })]);
+                    });
+
+                    menu.appendChild(copyOption);
                     document.body.appendChild(menu);
 
                     document.addEventListener(
