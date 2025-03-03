@@ -12,13 +12,25 @@
 
 # 截图
 
-点击放大图片。
+点击放大图片。使用鼠标滚轮缩放。
 
 ![放大图片](docs/image-zoom.webp)
 
-右键点击放大的图片以下载。
+在放大的图片上右键单击即可下载。
 
-![图片下载](docs/image-download.gif)
+![图片下载](docs/image-download.webp)
+
+可配置初始图片缩放比例，例如原始尺寸的 140%。  
+
+![图片初始放大](docs/initial-zoom-in.webp)  
+
+大尺寸图片会自动缩小以适应屏幕。  
+
+![图片初始缩小](docs/initial-zoom-out.webp)  
+
+你可以通过右键单击访问原始图片的弹出菜单。  
+
+![右键菜单](docs/right-click-popup.webp)  
 
 P.S. 截图里的主题是我做的 [Bing Daily Theme](https://github.com/Nriver/bing-daily-theme), 喜欢的话可以试试 : )
 
