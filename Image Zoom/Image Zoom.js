@@ -81,7 +81,7 @@ class ImagePreviewWidget extends api.NoteContextAwareWidget {
             const container = $("div.note-split:not(.hidden-ext) > div.scrolling-container > div.note-detail");
 
             // Retrieve zoom scale configuration from the config object
-            const { minZoomScale, maxZoomScale, zoomFactor, executeDelay } = config;
+            const { minZoomScale, maxZoomScale, zoomFactor, executeDelay, initialDisplayMode, screenPercentage, imageMultiple, previewTrigger } = config;
             if (minZoomScale === undefined || maxZoomScale === undefined || zoomFactor === undefined) {
                 console.error('Error: Zoom scale configuration missing!');
                 return;
@@ -114,11 +114,50 @@ class ImagePreviewWidget extends api.NoteContextAwareWidget {
                 $images.each(function () {
                     const img = this;
                     img.style.cursor = 'pointer';
-                    img.addEventListener('click', (e) => {
+
+                    const previewHandler = (e) => {
                         e.stopPropagation();
                         modalImage.src = img.src;
                         modal.style.display = 'flex';
-                    });
+
+                        function setInitialScale() {
+                            const padding = 40;
+                            const screenWidth = window.innerWidth - padding;
+                            const screenHeight = window.innerHeight - padding;
+                            const imgWidth = modalImage.naturalWidth;
+                            const imgHeight = modalImage.naturalHeight;
+
+                            const widthScale = screenWidth / imgWidth;
+                            const heightScale = screenHeight / imgHeight;
+                            const maxScale = Math.min(widthScale, heightScale);
+
+                            let initialScale;
+                            if (initialDisplayMode === 'screenPercentage') {
+                                const minDisplayWidth = screenWidth * screenPercentage;
+                                const minDisplayHeight = screenHeight * screenPercentage;
+                                const minWidthScale = minDisplayWidth / imgWidth;
+                                const minHeightScale = minDisplayHeight / imgHeight;
+                                const minScale = Math.max(minWidthScale, minHeightScale);
+                                initialScale = Math.min(minScale, maxScale);
+                            } else if (initialDisplayMode === 'imageMultiple') {
+                                const multipleScale = imageMultiple;
+                                initialScale = Math.min(multipleScale, maxScale);
+                            }
+
+                            modalImage.dataset.scale = initialScale;
+                            modalImage.style.transform = `scale(${initialScale})`;
+                        }
+
+                        if (modalImage.complete) {
+                            setInitialScale();
+                        } else {
+                            modalImage.onload = setInitialScale;
+                        }
+                    };
+
+                    img.removeEventListener('click', previewHandler);
+                    img.removeEventListener('dblclick', previewHandler);
+                    img.addEventListener(previewTrigger, previewHandler);
                 });
 
                 document.addEventListener('keydown', (event) => {
