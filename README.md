@@ -12,13 +12,25 @@ This plugin brings advanced image preview functionality to Trilium Notes. Click 
 
 # Screenshots
 
-Click to zoom image.
+Click to zoom image. Scale with mouse wheel.
 
 ![image zoom](docs/image-zoom.webp)
 
 Right click on zoomed image to download it.
 
-![image download](docs/image-download.gif)
+![image download](docs/image-download.webp)
+
+Configurable initial image zoom scale, e.g. 140% of the original image size.
+
+![image download](docs/initial-zoom-in.webp)
+
+Large images will automatically zoom out to fit the screen.
+
+![image download](docs/initial-zoom-out.webp)
+
+You can access the original image popup menu with right click.
+
+![image download](docs/right-click-popup.webp)
 
 P.S. The theme used in the screenshot is [Bing Daily Theme](https://github.com/Nriver/bing-daily-theme) which is also made by me. You can have a try if you like it : )
 
