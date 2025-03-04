@@ -243,9 +243,14 @@ class ImagePreviewWidget extends api.NoteContextAwareWidget {
                     const copyOption = document.createElement('div');
                     copyOption.textContent = i18n('copyImage');
                     copyOption.addEventListener('click', async () => {
-						const img = await fetch(modalImage.src);
-                        const blob = await img.blob();
-                        navigator.clipboard.write([new ClipboardItem({ 'image/png' : blob })]);
+			const img = await fetch(modalImage.src);
+                        const imgType = img.headers.get("Content-Type");
+                        if (ClipboardItem.supports(imgType)) {
+                        	const blob = await img.blob();
+                        	navigator.clipboard.write([new ClipboardItem({ imgType : blob })]);
+                        } else {
+                            api.showMessage(i18n('unsupported'));
+                        }
                     });
 
                     menu.appendChild(copyOption);
