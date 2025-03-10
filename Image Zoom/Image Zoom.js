@@ -271,7 +271,7 @@ class ImagePreviewWidget extends api.NoteContextAwareWidget {
                             const item = new ClipboardItem({ [type]: blob });
                             return navigator.clipboard.write([item]);
                         }).then(() => {
-                            console.log('Image copied to clipboard');
+                            api.showMessage(i18n('imageCopied'));
                         }).catch(error => {
                             console.error('Failed to copy image: ', error);
                             api.showMessage(i18n('unsupported'));
