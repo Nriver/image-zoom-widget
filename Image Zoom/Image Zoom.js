@@ -71,12 +71,35 @@ class ImagePreviewWidget extends api.NoteContextAwareWidget {
         `);
         return this.$widget;
     }
-
+    
     async refreshWithNote(note) {
         if (note.type !== 'text') {
             return;
         }
 
+        function imageToBlob(image) {
+            return new Promise((resolve, reject) => {
+                const canvas = document.createElement('canvas');
+                canvas.width = image.naturalWidth;
+                canvas.height = image.naturalHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(image, 0, 0);
+
+                const dataURL = canvas.toDataURL();
+                const type = dataURL.split(';')[0].split(':')[1];
+
+                const byteString = atob(dataURL.split(',')[1]);
+                const ab = new ArrayBuffer(byteString.length);
+                const ia = new Uint8Array(ab);
+                for (let i = 0; i < byteString.length; i++) {
+                    ia[i] = byteString.charCodeAt(i);
+                }
+                const blob = new Blob([ab], { type });
+
+                resolve(blob);
+            });
+        }
+        
         $(document).ready(function () {
             const container = $("div.note-split:not(.hidden-ext) > div.scrolling-container > div.note-detail");
 
@@ -242,18 +265,21 @@ class ImagePreviewWidget extends api.NoteContextAwareWidget {
 
                     const copyOption = document.createElement('div');
                     copyOption.textContent = i18n('copyImage');
-                    copyOption.addEventListener('click', async () => {
-			const img = await fetch(modalImage.src);
-                        const imgType = img.headers.get("Content-Type");
-                        if (ClipboardItem.supports(imgType)) {
-                        	const blob = await img.blob();
-                        	navigator.clipboard.write([new ClipboardItem({ imgType : blob })]);
-                        } else {
+                    copyOption.addEventListener('click', () => {
+                        imageToBlob(modalImage).then(blob => {
+                            const type = blob.type;
+                            const item = new ClipboardItem({ [type]: blob });
+                            return navigator.clipboard.write([item]);
+                        }).then(() => {
+                            console.log('Image copied to clipboard');
+                        }).catch(error => {
+                            console.error('Failed to copy image: ', error);
                             api.showMessage(i18n('unsupported'));
-                        }
+                        });
+                        document.body.removeChild(menu);
                     });
-
                     menu.appendChild(copyOption);
+                    
                     document.body.appendChild(menu);
 
                     document.addEventListener(
