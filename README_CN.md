@@ -32,6 +32,14 @@
 
 ![右键菜单](docs/right-click-popup.webp)  
 
+你可以将图片数据复制到剪贴板并粘贴。  
+
+![image download](docs/copy-image.webp)  
+
+与在 Trilium 中使用 `Ctrl + C` 不同，该操作无法将图片粘贴到其他软件。而借助这个小部件，你可以复制图片并粘贴到 Microsoft Word、WPS Office 等应用中。  
+
+![image download](docs/copy-image-to-word.webp)
+
 P.S. 截图里的主题是我做的 [Bing Daily Theme](https://github.com/Nriver/bing-daily-theme), 喜欢的话可以试试 : )
 
 # 如何安装

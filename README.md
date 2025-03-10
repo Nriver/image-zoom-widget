@@ -32,6 +32,14 @@ You can access the original image popup menu with right click.
 
 ![image download](docs/right-click-popup.webp)
 
+You can copy the image data to clipboard and paste it.
+
+![image download](docs/copy-image.webp)
+
+Unlike using `Ctrl + C` in Trilium, which doesn't allow pasting images into other software, this widget enables you to copy an image and paste it into applications like Microsoft Word, WPS Office, and more.
+
+![image download](docs/copy-image-to-word.webp)
+
 P.S. The theme used in the screenshot is [Bing Daily Theme](https://github.com/Nriver/bing-daily-theme) which is also made by me. You can have a try if you like it : )
 
 # How to Install
