@@ -100,9 +100,20 @@ class ImagePreviewWidget extends api.NoteContextAwareWidget {
             });
         }
         
-        $(document).ready(function () {
-            const container = $("div.note-split:not(.hidden-ext) > div.scrolling-container > div.note-detail");
-
+        $(document).ready(async function () {
+            // Try multiple times to get the container until it’s found or max attempts. Fix load issue for TriliumNext
+            let container;
+            const maxAttempts = 10;
+            let attempts = 0;
+            while (!(container = $("div.note-split:not(.hidden-ext) > div.scrolling-container > div.note-detail")).length && attempts < maxAttempts) {
+                await new Promise(resolve => setTimeout(resolve, 500)); // wait 500ms on each attempt
+                attempts++;
+            }
+            if (!container.length) {
+                console.error("Failed to find container after multiple attempts.");
+                return;
+            }
+            
             // Retrieve zoom scale configuration from the config object
             const { minZoomScale, maxZoomScale, zoomFactor, executeDelay, initialDisplayMode, screenPercentage, imageMultiple, previewTrigger } = config;
             if (minZoomScale === undefined || maxZoomScale === undefined || zoomFactor === undefined) {
